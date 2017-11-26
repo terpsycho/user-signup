@@ -1,3 +1,9 @@
+from flask import Flask
+
+app = Flask(__name__)
+app.config['DEBUG'] = True
+
+
 form = """
 <!DOCTYPE html>
 
@@ -20,26 +26,36 @@ form = """
         </style>
     </head>
     <body>
+    <form>
       <h1>Signup</h1>
       <form method="post">
-      <label for= >Username</label>
+
+      <label for="username" >Username</label>
       <input name="username" type="text" value>
-      <label for= >Password</label>
+      <span class="error"></span> <br>
+
+      <label for="password" >Password</label>
       <input name="password" type="password" value>
-      <label for= >Verify Password</label>
+      <span class="error"></span> <br>
+
+      <label for="pwverify" >Verify Password</label>
       <input name="pwverify" type="password" value>
-      <label for= >Email Address</label>
+      <span class="error"></span> <br>
+
+      <label for="email" >Email (optional)</label>
       <input name="email" type="text" value>
-      <sumbit buttoN>
+      <span class="error"></span> <br>
 
-
-
-
+      <input type="submit">
+        </form>
     </body>
 </html>
-
-
-
-
-
 """
+@app.route("/")
+def index():
+    return form
+
+app.run()
+
+
+
