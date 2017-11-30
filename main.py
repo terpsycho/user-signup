@@ -1,58 +1,18 @@
 from flask import Flask, request, redirect
+import os 
+import jinja2
+
+template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
-
-form = """
-<!DOCTYPE HTML>
-<style> .error {{ color: red;}}
-
- </style>
-
-<html>
-    <head>
-        <style>
-            
-        </style>
-    </head>
-    <body>
-    <form>
-      <h1>Signup</h1>
-      <form method="post">
-
-      <label for="username" >Username</label>
-      <input name="username" type="text" value >
-      <p class="error" name="username_error"></p> <br>
-
-      <label for="password" >Password</label>
-      <input name="password" type="password" value>
-      <p class="error" name ="password_error"></p> <br>
-
-      <label for="pwverify" >Verify Password</label>
-      <input name="pwverify" type="password" value>
-      <p class="error" name ="pwverify_error"></p> <br>
-
-      <label for="email" >Email (optional)</label>
-      <input name="email" type="text" value>
-      <p class="error" name= 'email_error'></p> <br>
-
-      <input type="submit">
-        </form>
-    </body>
-</html>
-"""
-
-
-@app.route("/")
-def index():
-    return form
-   
-@app.route('/info')
+  
+@app.route('/')
 def info():
-    return form.format( username= '', username_error= '', password='', password_error= '',
-    pwverify='', pwverify_error='', email= '', email_error=''
-    )
+    template = jinja_env.get_template('signup_form.html')
+    return template.render()
 
 
 @app.route('/info', methods=['POST'])
@@ -71,22 +31,22 @@ def validate_info():
     if not is_valid_username(username):
         username_error = "Not a valid username."
     
-    if not is_valid_username(password):
-        password_error = 'Not a valid password.'
+    #if not is_valid_username(password):
+        #password_error = 'Not a valid password.'
     
-    if not is_valid_username(pwverify):
-        pwverify_error = "Passwords do not match."
+    #if not is_valid_username(pwverify):
+        #pwverify_error = "Passwords do not match."
 
-    if not is_valid_username(email):
-        email_error = "Not a valid email."
+    #if not is_valid_username(email):
+        #email_error = "Not a valid email."
 
 
     def is_valid_username(name):
-        try: 
-            int(name)
+       try: 
+            name is "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
             return True
 
-        except ValueError:
+       except ValueError:
             return False
 
 @app.route("/hello", methods=['POST'])
@@ -95,6 +55,8 @@ def hello():
     firstname = request.form['username']
     return '<h1> Hello, ' + firstname + '</h1>'
 
-
+#@app.route("/")
+#def index():
+    #return form
 
 app.run()
