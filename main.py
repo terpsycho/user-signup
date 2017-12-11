@@ -3,6 +3,7 @@ import cgi
 import os
 import jinja2
 
+
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape=True)
 
@@ -43,7 +44,7 @@ form = """
         </label>
         <span class="error">{verify_error}</span><br>
 
-        <label>Email
+        <label>Email (optional)
             <input name="email" type="text" value='{email}' />
         </label>
         <span class="error">{email_error}</span><br>
@@ -70,10 +71,8 @@ def is_valid(data):
 
 #Need to fix email validation!!!       
 def valid_email(email):
-    email = request.form['email']
-    ats = email.count('@')
-    dots = email.count('.')
-    if ats == 0 and dots == 0:
+    
+    if ats is 0 and dots is 0:
         return True
     else: 
         return False
